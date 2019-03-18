@@ -17,6 +17,7 @@ class Board {
             ['#6effff','#faff02','#faff02','#f2a404',0,0,0,0,'#aa00ff',0],['#6effff','#faff02','#faff02','#f2a404',0,0,0,'#aa00ff','#aa00ff','#aa00ff']
         ];;
         this.currentPiece = null;
+        this.gameOver = false;
     }
     setCurrentPiece(piece){
         this.currentPiece = piece;

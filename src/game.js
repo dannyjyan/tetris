@@ -35,16 +35,18 @@ class Game {
     render(){
         // console.log(this.xOffset);
         // debugger;
-        this.ctx.clearRect(0,0, Game.WIDTH*Game.BOX_LENGTH+this.xOffset, Game.HEIGHT*Game.BOX_LENGTH+this.yOffset)
-        this.board.dropPiece() //addPiece if cannot dropPiece()
-        for(let x = 0; x < this.board.grid.length; x++){
-            for(let y = 0; y < this.board.grid[0].length; y++){
-                let nextColor = this.board.grid[x][y]
-                if (nextColor != 0){
-                    // ctx.fillStyle = '#000'
-                    this.ctx.fillStyle = this.board.grid[x][y];
-                    this.ctx.fillRect(y*Game.BOX_LENGTH+this.xOffset, x* Game.BOX_LENGTH+this.yOffset, Game.BOX_LENGTH,Game.BOX_LENGTH);
-                    this.ctx.stroke();
+        if (this.board.gameOver === false){
+            this.ctx.clearRect(0,0, Game.WIDTH*Game.BOX_LENGTH+this.xOffset, Game.HEIGHT*Game.BOX_LENGTH+this.yOffset)
+            this.board.dropPiece() //addPiece if cannot dropPiece()
+            for(let x = 0; x < this.board.grid.length; x++){
+                for(let y = 0; y < this.board.grid[0].length; y++){
+                    let nextColor = this.board.grid[x][y]
+                    if (nextColor != 0){
+                        // ctx.fillStyle = '#000'
+                        this.ctx.fillStyle = this.board.grid[x][y];
+                        this.ctx.fillRect(y*Game.BOX_LENGTH+this.xOffset, x* Game.BOX_LENGTH+this.yOffset, Game.BOX_LENGTH,Game.BOX_LENGTH);
+                        this.ctx.stroke();
+                    }
                 }
             }
         }
