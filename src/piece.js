@@ -4,19 +4,56 @@ class Piece {
         // this.nullPiece = false;
         this.color = options['color'] || '#6effff';
         this.pos = options['pos'] || [[0,4],[0,5],[1,4],[1,5]] // arr of arrs, set to empty
+        this.nextRot = -1;
     }
     // static nullPiece(){
     // }
-    nextPos(){
-        return [[this.pos[0][0] + 1, this.pos[0][1]], 
-                [this.pos[1][0] + 1, this.pos[1][1]], 
-                [this.pos[2][0] + 1, this.pos[2][1]], 
-                [this.pos[3][0] + 1, this.pos[3][1]]]
+    nextPos(dir){
+        // dir = 'down';
+        switch (dir) { 
+            case 'down':
+                return [[this.pos[0][0] + 1, this.pos[0][1]], 
+                        [this.pos[1][0] + 1, this.pos[1][1]], 
+                        [this.pos[2][0] + 1, this.pos[2][1]], 
+                        [this.pos[3][0] + 1, this.pos[3][1]]]
+
+            case 'up': //delete this late but sure lol
+                return rotate()
+                // return [[this.pos[0][0] - 1, this.pos[0][1]], 
+                //         [this.pos[1][0] - 1, this.pos[1][1]], 
+                //         [this.pos[2][0] - 1, this.pos[2][1]], 
+                //         [this.pos[3][0] - 1, this.pos[3][1]]]
+    
+            case 'left':
+                return [[this.pos[0][0], this.pos[0][1] - 1], 
+                        [this.pos[1][0], this.pos[1][1] - 1], 
+                        [this.pos[2][0], this.pos[2][1] - 1], 
+                        [this.pos[3][0], this.pos[3][1] - 1]]
+
+            case 'right':
+                return [[this.pos[0][0], this.pos[0][1] + 1], 
+                        [this.pos[1][0], this.pos[1][1] + 1], 
+                        [this.pos[2][0], this.pos[2][1] + 1], 
+                        [this.pos[3][0], this.pos[3][1] + 1]]
+        }
+    }
+    rotate(){
+        this.nextRot ++ 
+        nextChange = Piece.rotArr[this.nextRot % Piece.rotArr.length];
+        return [[this.pos[0][0], this.pos[0][1] - 1], 
+                [this.pos[1][0], this.pos[1][1] - 1], 
+                [this.pos[2][0], this.pos[2][1] - 1], 
+                [this.pos[3][0], this.pos[3][1] - 1]]
+
     }
     collideWith(){
 
     }
 }
+Piece.rotArr = [
+    [[-1, 1], [0,0], [1, -1], [2, -2]], 
+    [[1, -1], [0,0], [-1, 1], [-2, 2]] 
+]
 
 module.exports = Piece;
 

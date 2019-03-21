@@ -9,13 +9,10 @@ class Game {
         this.yOffset = 100;
         this.gameOver = false;
     }
-
     addPiece(nextPiece){
         // let nextPiece = Math.floor(Math.random()*7);
         this.board.addPiece(nextPiece);
-
     }
-
     renderBG(){ 
         for(let x = 0; x < this.board.grid.length; x++){
             for(let y = 0; y < this.board.grid[0].length; y++){
@@ -37,7 +34,7 @@ class Game {
         // debugger;
         if (this.board.gameOver === false){
             this.ctx.clearRect(0,0, Game.WIDTH*Game.BOX_LENGTH+this.xOffset, Game.HEIGHT*Game.BOX_LENGTH+this.yOffset)
-            this.board.dropPiece() //addPiece if cannot dropPiece()
+            // this.board.dropPiece('down') //addPiece if cannot dropPiece()
             for(let x = 0; x < this.board.grid.length; x++){
                 for(let y = 0; y < this.board.grid[0].length; y++){
                     let nextColor = this.board.grid[x][y]

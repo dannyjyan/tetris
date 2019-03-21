@@ -22,12 +22,10 @@ class Board {
     setCurrentPiece(piece){
         this.currentPiece = piece;
     }
-    dropPiece(){
-        // let prev = this.currentPiece.pos;
-        // console.log(next[0][1])
+    dropPiece(dir){
         let prev = this.currentPiece.pos
-        let next = this.currentPiece.nextPos();
-
+        let next = this.currentPiece.nextPos(dir);
+        console.log(next);
         if (this.currentPiece && this.isValidMove(next)){
             for(let i = 0; i < 4; i++){ // set prev positions to 0
                 this.grid[prev[i][0]][prev[i][1]] = 0;
@@ -37,7 +35,9 @@ class Board {
             }
             this.currentPiece.pos = next;
         } else {
-            this.addPiece(Math.floor(Math.random()*7));
+            if (dir === 'down'){
+                this.addPiece(Math.floor(Math.random()*7));
+            }
         }
     }
     isValidMove(nextPos){
@@ -62,31 +62,31 @@ class Board {
         let color = ""
         switch (nextPiece){
             case 0: // I 
-                arr = [[0,3],[0,4],[0,5],[0,6]]
+                arr = [[1,3],[1,4],[1,5],[1,6]]
                 color = '#6effff'
                 break;
             case 1: // O
-                arr = [[0,4],[0,5],[1,4],[1,5]]
+                arr = [[1,4],[1,5],[1,4],[1,5]]
                 color = '#faff02';
                 break;
             case 2: // T
-                arr = [[0,4],[1,3],[1,4],[1,5]]
+                arr = [[1,4],[2,3],[2,4],[2,5]]
                 color = '#aa00ff';
                 break;
             case 3: // L
-                arr = [[0,5],[1,3],[1,4],[1,5]]
+                arr = [[1,5],[2,3],[2,4],[2,5]]
                 color = '#f2a404';
                 break;
             case 4: // J 
-                arr = [[0,3],[1,3],[1,4],[1,5]]
+                arr = [[1,3],[2,3],[2,4],[2,5]]
                 color = '#3b00ff';
                 break;
             case 5: // Z
-                arr = [[0,3],[0,4],[1,4],[1,5]]
+                arr = [[1,3],[1,4],[2,4],[2,5]]
                 color = '#ed0105';
                 break;
             case 6: // S
-                arr = [[0,4],[0,5],[1,3],[1,4]]
+                arr = [[1,4],[1,5],[2,3],[2,4]]
                 color = '#2b8001';
                 break;
         }

@@ -20,7 +20,25 @@ class GameView {
     bindKeyHandlers(){
         //todo, learn how to do this
         const ship = this.ship;
-
+        addEventListener('keydown', (e) => {
+            switch (event.keyCode) {
+                case 37: // Left
+                  this.game.board.dropPiece('left');
+                break;
+            
+                case 38: // Up
+                  this.game.board.dropPiece('up');
+                break;
+            
+                case 39: // Right
+                  this.game.board.dropPiece('right');
+                break;
+            
+                case 40: // Down
+                  this.game.board.dropPiece('down');
+                break;
+              }
+                    })
         Object.keys(GameView.MOVES).forEach((k) => {
           const move = GameView.MOVES[k];
         //   key(k, () => { .power(move); });
@@ -38,9 +56,8 @@ class GameView {
         // this.game.render(this.ctx);
         // while(!this.game.gameOver()){
         this.ctx.strokeStyle = 'blue'
-
+        this.bindKeyHandlers();
         this.game.renderBG();
-
         this.game.addPiece(6)
         this.then = Date.now();
         this.animate();
