@@ -18,6 +18,7 @@ class Piece {
                         [this.pos[3][0] + 1, this.pos[3][1]]]
 
             case 'up': //delete this late but sure lol
+            //what dis
                 return rotate()
                 // return [[this.pos[0][0] - 1, this.pos[0][1]], 
                 //         [this.pos[1][0] - 1, this.pos[1][1]], 
