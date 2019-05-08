@@ -1,14 +1,13 @@
-import './styles/index.scss'
-import GameView from "./gameView";
-import Game from './game';
-import { createContext } from 'vm';
+import './styles/index.scss';
+import Tetris from './tetris';
 
 document.addEventListener("DOMContentLoaded", () => {
-    let canvasEl = document.querySelector("canvas");
-    canvasEl.width = 600;
-    canvasEl.height = 800;
-    const ctx = canvasEl.getContext("2d");
-    const game = new Game(ctx);
-
-    new GameView(ctx, game).start();
+  let canvas = document.querySelector("canvas");
+  canvas.width = 600;
+  canvas.height = 800;
+  
+  const ctx = canvas.getContext("2d");
+  const tetris = new Tetris(canvas, ctx);
+  tetris.start();
+  
 })
