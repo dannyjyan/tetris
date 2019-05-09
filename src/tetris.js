@@ -15,6 +15,7 @@ class Tetris{
     }
     this.update = this.update.bind(this);
     this.start = this.start.bind(this);
+    this.colors = ["", '#f0f002', '#00f1f0', '#00f000', '#f00001', '#f0a000', '#0000f0', '#a001f0']
     // this.playerMove = this.playerMove.bind(this);
   ;
 
@@ -74,40 +75,40 @@ class Tetris{
         ]
       case 'I':
         return [
-          [0,1,0,0],
-          [0,1,0,0],
-          [0,1,0,0],
-          [0,1,0,0],
+          [0,0,0,0],
+          [2,2,2,2],
+          [0,0,0,0],
+          [0,0,0,0],
         ]
       case 'S':
         return [
-          [0,1,1],
-          [1,1,0],
+          [0,3,3],
+          [3,3,0],
           [0,0,0]
         ]
       case 'Z':
         return [
-          [1,1,0],
-          [0,1,1],
+          [4,4,0],
+          [0,4,4],
           [0,0,0]
         ]
       case 'L':
         return [
-          [0,1,0],
-          [0,1,0],
-          [0,1,1]
+          [5,5,5],
+          [5,0,0],
+          [0,0,0]
         ]
       case 'J':
         return [
-          [0,1,0],
-          [0,1,0],
-          [1,1,0]
+          [6,6,6],
+          [0,0,6],
+          [0,0,0]
         ]
       case 'T':
         return [
-          [0,0,0],
-          [1,1,1],
-          [0,1,0]
+          [7,7,7],
+          [0,7,0],
+          [0,0,0]
         ]
     }
   }
@@ -115,7 +116,7 @@ class Tetris{
     matrix.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
-          this.context.fillStyle = 'red';
+          this.context.fillStyle = this.colors[value];
           this.context.fillRect(x + offset.x, 
                                 y + offset.y
                                 ,1,1);
@@ -128,6 +129,10 @@ class Tetris{
     this.context.fillRect(0,0,this.canvas.width, this.canvas.height);
     this.drawMatrix(this.board, {x: 0, y:0});
     this.drawMatrix(this.player.matrix, this.player.pos );
+  }
+  gameOver(){ // game over
+    //change functionality, but clear board for now
+    this.board.forEach(row => row.fill(0));
   }
   merge(board, player){
     this.player.matrix.forEach((row, y) => {
@@ -182,7 +187,10 @@ class Tetris{
     this.player.matrix = this.createPiece(pieces[pieces.length * Math.random() | 0]);
     this.player.pos.y = 0;
     this.player.pos.x = (this.board[0].length / 2 | 0) - (this.player.matrix[0].length / 2 | 0);
-
+    // gameover handling
+    if (this.collide(this.board, this.player)){
+      this.gameOver();
+    }
   }
   rotate(matrix, dir){
     for (let y = 0; y < matrix.length; ++y){
@@ -202,8 +210,8 @@ class Tetris{
   }
   start(){
     this.bindKeyHandlers();
-    console.table(1);
     this.board = this.createMatrix(12,20);
+    this.playerReset();
     this.update();
   }
   update(time = 0){
