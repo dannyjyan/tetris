@@ -2,12 +2,14 @@ class Tetris{
   constructor(canvas, context){
     this.canvas = canvas;
     this.context = context;
+    this.dim = [12,20];
+    this.colors = ["", '#f0f002', '#00f1f0', '#00f000', '#f00001', '#f0a000', '#0000f0', '#a001f0']
     this.prevTime = 0;
     this.dropCounter = 0; // current time
     this.dropInterval = 1000; // 1 tick every 1 second
     this.player =   
     {
-      pos: {x: 5, y: 5},
+      pos: {x: 0, y: 0},
       matrix: 
         [[0,0,0],
         [1,1,1],
@@ -15,14 +17,14 @@ class Tetris{
     }
     this.update = this.update.bind(this);
     this.start = this.start.bind(this);
-    this.colors = ["", '#f0f002', '#00f1f0', '#00f000', '#f00001', '#f0a000', '#0000f0', '#a001f0']
+    this.boardClear = this.boardClear.bind(this);
     // this.playerMove = this.playerMove.bind(this);
   ;
 
 
   ;
     // window.player = this.player;
-    context.scale(20,20);
+    context.scale(30,30);
   }
   bindKeyHandlers(){
     document.addEventListener('keydown', event => {
@@ -36,13 +38,23 @@ class Tetris{
         this.playerMove(1);
       } else if (event.keyCode === 90) { // z - rotate left
         this.playerRotate(-1)
-      } else if (event.keyCode === 88) { // x - rotate right
+      } else if (event.keyCode === 38) { // up arrow - rotate right
         this.playerRotate(1)
       } else if (event.keyCode === 32) { // space - hardDrop
         this.playerHardDrop();
       }
 
     });
+  }
+  boardClear(){
+    outer: for (let y = this.board.length - 1; y > 0; --y){
+      for (let x = 0; x < 12; x++){
+        if (this.board[y][x] === 0) continue outer;
+      }
+      const newRow  = this.board.splice(y, 1)[0].fill(0);
+      this.board.unshift(newRow);
+      ++y;
+    }
   }
   collide(board, player){
     const [mat, pos] = [player.matrix, player.pos];
@@ -151,7 +163,7 @@ class Tetris{
       this.player.pos.y--;
       this.merge(this.board, this.player);
       this.playerReset();
-      this.player.pos.y = 0;
+      this.boardClear();
     }
     this.dropCounter = 0;
     return collided;
@@ -210,7 +222,7 @@ class Tetris{
   }
   start(){
     this.bindKeyHandlers();
-    this.board = this.createMatrix(12,20);
+    this.board = this.createMatrix(...this.dim);
     this.playerReset();
     this.update();
   }
