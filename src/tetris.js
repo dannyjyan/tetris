@@ -137,7 +137,7 @@ class Tetris{
     })
   }
   draw(){
-    this.context.fillStyle = "#8282e1";
+    // this.context.fillStyle = "#8282e1"; //background COLOR
     this.context.fillRect(0,0,this.canvas.width, this.canvas.height);
     this.drawMatrix(this.board, {x: 0, y:0});
     this.drawMatrix(this.player.matrix, this.player.pos );

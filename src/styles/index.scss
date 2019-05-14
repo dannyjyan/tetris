@@ -1,10 +1,26 @@
 canvas{
-  position: absolute;
+  position:absolute;
+  left:0px;
+  top:0px;
 }
-.game{
-  display: block;
-  margin: auto;
+#games{
+  background: white;
 }
-.bg{
-  background: rgb(130, 130, 225);
+.canvases{
+  position: relative;
+  width: 360px;
+  height: 600px;
+}
+#background{
+  // background: rgb(93, 93, 160);
+  background: red;
+  z-index: -1;
+}
+body{
+  background: rgb(80, 80, 80);
+}
+.center{
+  display: flex;
+  align-content: center;
+  justify-content: center;
 }
