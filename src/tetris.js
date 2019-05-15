@@ -1,3 +1,5 @@
+const scale = 30;
+
 class Tetris{
   constructor(canvas, context){
     this.canvas = canvas;
@@ -5,6 +7,7 @@ class Tetris{
     this.dim = [12,20];
     this.colors = ["", '#f0f002', '#00f1f0', '#00f000', '#f00001', '#f0a000', '#0000f0', '#a001f0']
     this.prevTime = 0;
+    this.score = 0;
     this.dropCounter = 0; // current time
     this.dropInterval = 1000; // 1 tick every 1 second
     this.player =   
@@ -19,12 +22,10 @@ class Tetris{
     this.start = this.start.bind(this);
     this.boardClear = this.boardClear.bind(this);
     // this.playerMove = this.playerMove.bind(this);
-  ;
 
 
-  ;
     // window.player = this.player;
-    context.scale(30,30);
+    context.scale(scale,scale);
   }
   bindKeyHandlers(){
     document.addEventListener('keydown', event => {
@@ -47,6 +48,7 @@ class Tetris{
     });
   }
   boardClear(){
+    let linesCleared = 0;
     outer: for (let y = this.board.length - 1; y > 0; --y){
       for (let x = 0; x < 12; x++){
         if (this.board[y][x] === 0) continue outer;
@@ -54,6 +56,21 @@ class Tetris{
       const newRow  = this.board.splice(y, 1)[0].fill(0);
       this.board.unshift(newRow);
       ++y;
+      linesCleared++;
+    }
+    if (linesCleared !== 0){
+      let pointsAwarded = 0;
+      switch (linesCleared){
+        case 1:
+          pointsAwarded = 100; break;
+        case 2:
+          pointsAwarded = 300; break;
+        case 3:
+          pointsAwarded = 500; break;
+        case 4:
+          pointsAwarded = 800; break;
+      }
+      this.updateScore(pointsAwarded);
     }
   }
   collide(board, player){
@@ -137,11 +154,34 @@ class Tetris{
     })
   }
   draw(){
-    // this.context.fillStyle = "#8282e1"; //background COLOR
-    this.context.fillRect(0,0,this.canvas.width, this.canvas.height);
+    this.context.fillStyle = "#8282e1"; //background COLOR
+    this.context.fillRect(0,0,30, this.canvas.height);
+    this.context.fillStyle = "white";
+    this.context.fillRect(0, 0, 30,this.canvas.height);
+
+    // this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
+    this.drawBG();
     this.drawMatrix(this.board, {x: 0, y:0});
     this.drawMatrix(this.player.matrix, this.player.pos );
   }
+  drawBG(){ 
+    for(let x = 0; x < this.dim[0]*scale; x+=scale){
+      // this.context.fillStyle = "white";
+      // this.context.fillRect(x, 0, scale,this.dim[1]*scale);
+    }
+    this.context.fillStyle = "white";
+    this.context.fillRect(0, 0, 30,0);
+
+    // for(let x = 0; x <= 20*30; x+=30){
+    //   this.context.moveTo(0,x+30);
+    //   this.context.lineTo(0,x+360);
+    // }
+
+    // this.context.strokeStyle = "black";
+    // this.context.stroke();
+    // this.ctx.fillStyle = "#8CC13F"
+    // this.ctx.fillRect(0, 700, 600, 100);
+}
   gameOver(){ // game over
     //change functionality, but clear board for now
     this.board.forEach(row => row.fill(0));
@@ -238,6 +278,13 @@ class Tetris{
     
     this.draw();
     requestAnimationFrame(this.update);
+  }
+  updateScore(pointsAwarded){
+    this.score += pointsAwarded;
+    document.getElementById('score').innerText = this.score;
+  }
+  updateLines(){
+
   }
 }
 
